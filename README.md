@@ -4,4 +4,8 @@
 •gvim
 •urxvt
 •ipython qtconsole
-
+•oh-my-zsh
+•ranger
+•aweosme(rc.lua)
+•aria2
+つづく。。。
