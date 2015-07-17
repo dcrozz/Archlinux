@@ -71,7 +71,7 @@ editor_cmd = terminal .. " -e " .. editor
 -- user defined
 browser    = "firefox"
 gui_editor = "gvim"
-graphics   = "gimp"
+qtpython   = "python2 /usr/lib/python2.7/site-packages/IPython/qt/console/qtconsoleapp.py"
 mail       = terminal .. " -e mutt "
 iptraf     = terminal .. " -g 180x54-20+34 -e sudo iptraf-ng -i all "
 musicplr   = terminal .. " -g 130x34-320+16 -e ncmpcpp "
@@ -80,6 +80,7 @@ local layouts = {
     awful.layout.suit.tile,
     awful.layout.suit.floating,
 	awful.layout.suit.max,
+    awful.layout.suit.tile.left,
     --awful.layout.suit.fair,
     --awful.layout.suit.fair.horizontal,
 }
@@ -528,10 +529,10 @@ globalkeys = awful.util.table.join(
     awful.key({ modkey }, "c", function () os.execute("xsel -p -o | xsel -i -b") end),
 
     -- User programs
-    awful.key({ modkey }, "q", function () awful.util.spawn(browser) end),
-    awful.key({ modkey }, "i", function () awful.util.spawn(browser2) end),
-    awful.key({ modkey }, "s", function () awful.util.spawn(gui_editor) end),
-    awful.key({ modkey }, "g", function () awful.util.spawn(graphics) end),
+    --awful.key({ modkey }, "q", function () awful.util.spawn(browser) end),
+    --awful.key({ modkey }, "i", function () awful.util.spawn(browser2) end),
+    awful.key({ modkey }, "g", function () awful.util.spawn(gui_editor) end),
+    awful.key({ modkey }, "i", function () awful.util.spawn(qtpython) end),
 
     -- Prompt
     awful.key({ modkey }, "r", function () mypromptbox[mouse.screen]:run() end),
@@ -544,6 +545,7 @@ globalkeys = awful.util.table.join(
               end),
 	awful.key({ modkey,			  }, "e", function() awful.util.spawn("thunar") end),
 	awful.key({ modkey,	"Control" }, "f", function() awful.util.spawn("firefox") end),
+	awful.key({ modkey,	"Control" }, "c", function() awful.util.spawn("fcitx") end),
 	awful.key({ modkey,	"Control" }, "x", function() awful.util.spawn("virtualbox") end),
 	awful.key({ modkey, "Control" }, "d", function() awful.util.spawn("goldendict") end),
 	awful.key({ modkey, "Control" }, "m", function() awful.util.spawn("deadbeef") end),
@@ -669,12 +671,16 @@ awful.rules.rules = {
       properties = { tag = tags[1][2] } },
     { rule = { class = "Wps" },
       properties = { tag = tags[1][3] } },
+    { rule = { class = "Wpp" },
+      properties = { tag = tags[1][3] } },
     { rule = { class = "Evince" },
       properties = { tag = tags[1][3] } },
     { rule = { class = "Thunar" },
       properties = { tag = tags[1][1] } },
 	{ rule = { class = "Firefox",name = "Library"},
   	  properties = { floating = true}},
+	{ rule = { class = "Plugin-container",name = "Select file(s) to upload by js.t.sinajs.cn"},
+  	  properties = { floating = true,tag = tags[1][2]}},
 	{ rule = { class = "Firefox",name = "Firefox Preferences"},
   	  properties = { floating = true}},
 	{ rule = { class = "Deadbeef" },
@@ -684,9 +690,16 @@ awful.rules.rules = {
 	{ rule = { class = "urxvt"},
 	  properties = { size_hints_honor = false}},
 	{ rule = { class = "Goldendict"},
-	  properties = { tag = tags[1][5]}}
+	  properties = { tag = tags[1][5]}},
+	{ rule = { class = "VirtualBox"},
+	  properties = { tag = tags[1][3]}},
+	{ rule = { role = "_NET_WM_STATE_FULLSCREEN" },
+	  properties = { floating = true } }
+
 }
 -- }}}
+
+
 
 -- {{{ Signals
 -- signal function to execute when a new client appears.
@@ -777,4 +790,4 @@ for s = 1, screen.count() do screen[s]:connect_signal("arrange", function ()
       end)
 end
 -- }}}
-theme.menu_fg_normal='#3F3F3FAA'
+theme.menu_fg_normal = "#3F3F3FAA"

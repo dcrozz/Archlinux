@@ -1,0 +1,50 @@
+open_with evince
+search main
+search pptx
+search pro
+search this
+empty
+search lan
+open_with lyx
+open_with leafnote
+rename Photo.jpg
+rename alex.pdf
+rename vim-addon-mw-utilsk:
+mkdir comic
+search sola
+mkdir .vim
+mkdir colors
+search .vimrc
+rename solarizeds.vim
+rename solarized.vim
+search
+search vimrc
+search vim
+search .vim
+mkdir windows_fonts
+search do
+emtpy
+search pi
+search .
+search .ipytho
+search tmp
+search .ipy
+mkdir sql
+search sql
+empty 
+mkdir login
+search login
+cd
+extracthere 
+rename The.Binding.of.Isaac.Rebirth.HD
+
+search lo
+rename xunlei.html
+open_with vim
+open_with 
+rename 曹思远简历-实习客户端工程师.pdf
+delete
+mkdir jpg2gif
+search jpg
+search 
+search tra
