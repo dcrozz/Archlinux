@@ -1,0 +1,8 @@
+rename ranger
+rename rc1.lua
+rename rc.lua.streamburn
+rename rc.lua
+rename .zshrc
+open_with `
+delete
+mkdir colors

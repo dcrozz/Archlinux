@@ -1,0 +1,2 @@
+exec awesome
+xmodmap .Xmodmap
