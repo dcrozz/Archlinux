@@ -86,10 +86,6 @@ imap <c-l> <Right>
 imap <c-h> <Left>
 
 
-"macro
-" change the header format
-let @i="I\"<80>lxf:i\"<80>wi\"<80>lxA\",<80>j"
-
 " Auto Session Save/Restore
 function GetProjectName()
     " Get the current editing file list, Unix only
@@ -162,7 +158,7 @@ Plugin 'scrooloose/nerdtree'
 Plugin 'jiangmiao/auto-pairs'
 Plugin 'easymotion/vim-easymotion'
 "Plugin 'majutsushi/tagbar'
-Plugin 'Valloric/YouCompleteMe'
+" Plugin 'Valloric/YouCompleteMe'
 Plugin 'Yggdroot/indentLine'
 Plugin 'mattn/emmet-vim'
 Plugin 'majutsushi/tagbar'
@@ -173,8 +169,8 @@ Plugin 'junegunn/vim-easy-align'
 Plugin 'mhinz/vim-startify'
 Plugin 'airblade/vim-gitgutter'
 " ultisnip engine and snippets
-Plugin 'SirVer/ultisnips'
-Plugin 'honza/vim-snippets'
+" Plugin 'SirVer/ultisnips'
+" Plugin 'honza/vim-snippets'
 Plugin 'hail2u/vim-css3-syntax'
 
 " Trigger configuration. Do not use <tab> if you use https://github.com/Valloric/YouCompleteMe.
@@ -282,3 +278,14 @@ augroup VimCSS3Syntax
   autocmd FileType css setlocal iskeyword+=-
 augroup END
 
+""some personal defined stuff
+
+""macro
+" change the header format
+let @i="I\"<80>lxf:i\"<80>wi\"<80>lxA\",<80>j"
+
+"delete all the blank lines in selected range
+vmap <Leader>d :g/^\s*$/d<CR>
+
+"cancel highlight
+nmap <Leader><ESC> :nohl<CR>
