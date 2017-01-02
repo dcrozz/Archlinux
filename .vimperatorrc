@@ -1,7 +1,12 @@
+"3.10.1 (created: 2015/08/25 00:41:59)
+
+source! /Users/alex/.vimperatorrc.local
+
+" vim: set ft=vimperator:
 map J <C-d>
 map K <C-u>
-map H gT
-map L gt
+map H <C-p>
+map L <C-n>
 noremap j 5j
 noremap k 5k
 noremap > <C-a>
@@ -9,5 +14,7 @@ noremap < <C-x>
 noremap .. ]]
 noremap ,, [[
 imap jj <ESC>
+nmap <Leader><ESC> :nohl<CR>
 set nextpattern=\s*下一页|下一张|下一篇|下一頁|下页|后页\s*,^\bnext\b,\bnext\b,\bsuivant\b,^>$,^(>>|››|»)$,^(>|»),(>|»)$,\bmore\b
 set previouspattern=\s*上一页|上一张|上一篇|上一頁|上页|前页\s*,^\bprev|previous\b,\bprev|previous\b,\bprécédent\b,^<$,^(<<|‹‹|«)$,^(<|«),(<|«)$
+" js services.services.autoCompleteSearch.class_="@mozilla.org/autocomplete/search;1?name=unifiedcomplete"
