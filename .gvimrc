@@ -1,4 +1,5 @@
 "set go "guioption
+colorscheme molokai
 set go-=T
 set go-=m
 set guifont=Inconsolata\ 13
