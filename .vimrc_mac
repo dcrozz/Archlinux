@@ -80,10 +80,10 @@ nmap <Leader>pa %
 "%nnoremap <c-h> <c-w>h
 "%nnoremap <c-l> <c-w>l
 nnoremap <c-i> %
-imap <c-k> <Up>
-imap <c-j> <Down>
-imap <c-l> <Right>
-imap <c-h> <Left>
+"imap <c-k> <Up>
+"imap <c-j> <Down>
+"imap <c-l> <Right>
+"imap <c-h> <Left>
 
 
 " Auto Session Save/Restore
@@ -136,9 +136,6 @@ nmap sso :call RestoreSession()
 nmap ssd :call DeleteSession()
 "autocmd VimLeave * call SaveSession()
 "autocmd VimEnter * call RestoreSession()
-
-
-
 
 """""""""""""""""""""""""""""
 "Plugins					"
@@ -285,11 +282,17 @@ augroup END
 ""macro
 " change the header format
 let @i="I\"<80>lxf:i\"<80>wi\"<80>lxA\",<80>j"
-let @r="r|l^Vf+hr"
+" let @r="r|l^Vf+hr"
 let @c="i:code:`jjxEa`jj"
+"cut and paste without indent change
+let @r="\"aygvr "
+let @p="Ra"
 
 "delete all the blank lines in selected range
 vmap <Leader>d :g/^\s*$/d<CR>
 
 "cancel highlight
 nmap <Leader><ESC> :nohl<CR>
+
+"make & run
+map <F9> :!make %:r && ./%:r<CR>
