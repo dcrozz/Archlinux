@@ -1,91 +1,49 @@
-"""""""""""""""""""""""""
-"Start
 """"""""""""""""""""""""""
-set nocompatible              " be iMproved, required
-filetype off                  " required
+"General
+""""""""""""""""""""""""""
+set nocompatible    " be iMproved, required
+filetype off        " required
 let mapleader = "\\"
-" vim 自身命令行模式智能补全
 set wildmenu
-"切换buffer时不被打断
-set hidden 
-set nowrap
-" 开启实时搜索功能
-set incsearch
 set fileencodings=utf-8,ucs-bom,gb18030,gbk,gb2312,cp936
-" colorscheme solarized
-colorscheme molokai
-set smartindent "smart indent
-set autoindent	"auto indent
-set shortmess=atI   "remove the Welcome frame
-set nu			"line number
-set hlsearch	"highlight the search result
-set incsearch	"immediately match
-set backspace=2 "enable the backspace
-set ruler		"right-bottom will show the postion of the current cursor
-set showmode
 set guifont=DejaVu\ Sans\ Mono\ for\ Powerline:h15
-"set list		"show the tab with "|"
-"syntax enable	"highlight the syntax
-syntax on		"enable the file type detect
-set autoread	"refresh the file if it's updated outside
+set wildmode=full
+set hidden			"切换buffer时不被打断
+set nowrap
+set incsearch		" 开启实时搜索功能
+colorscheme molokai
+set smartindent		"smart indent
+set autoindent		"auto indent
+set shortmess=atI   "remove the Welcome frame
+set nu				"line number
+set hlsearch		"highlight the search result
+set incsearch		"immediately match
+set ruler			"right-bottom will show the postion of the current cursor
+set showmode
+syntax on			"enable the file type detect
+set autoread		"refresh the file if it's updated outside
 set history=50
 set nolinebreak
 set backspace=indent,eol,start
 set t_Co=256
 set cursorline
+set list lcs=tab:\|\ 
+set foldnestmax=2
+set nofoldenable
+set ignorecase smartcase
+set cursorline cursorcolumn
+set guioptions-=L
+set guioptions-=r
 """"""Indent
 "set expandtab
 set shiftwidth=4
 set softtabstop=4
 set tabstop=4
-set list lcs=tab:\|\ 
-"set foldmethod
-" set foldmethod=indent
-" nnoremap <silent> <space> @=((foldclosed(line('.')) < 0) ? 'zc' : 'zo')<CR>
-"set foldmethod=syntax
-set foldnestmax=2
-set nofoldenable
-" 搜索时大小写不敏感
-set ignorecase smartcase
-set cursorline cursorcolumn
-"Gui options
-" if has('gui_running')
-"     set background=light
-" else
-"     set background=dark
-" endif
-set guioptions-=L
-set guioptions-=r
 
 
-" Persistent undo
-" set undodir=~/.vim/undodir
-" set undofile
-" set undolevels=1000 "maximum number of changes that can be undone
-" set undoreload=10000 "maximum number lines to save for undo on a buffer reload
-
-hi Normal ctermfg=252 ctermbg=none
-imap jj <ESC>
-" 定义快捷键到行首和行尾
-"nmap lb 0
-"nmap le $
-" 设置快捷键将选中文本块复制至系统剪贴板
-vnoremap <Leader>y "+y
-" 设置快捷键将系统剪贴板内容粘贴至 vim
-nmap <Leader>p "+p
-" 定义快捷键在结对符之间跳转，助记pair
-nmap <Leader>pa %
-"%nnoremap <c-j> <c-w>j
-"%nnoremap <c-k> <c-w>k
-"%nnoremap <c-h> <c-w>h
-"%nnoremap <c-l> <c-w>l
-nnoremap <c-i> %
-imap <c-k> <Up>
-imap <c-j> <Down>
-imap <c-l> <Right>
-imap <c-h> <Left>
-
-
+""""""""""""""""""""""""""
+"Functions
+""""""""""""""""""""""""""
 " Auto Session Save/Restore
 function GetProjectName()
     " Get the current editing file list, Unix only
@@ -98,7 +56,6 @@ function GetProjectName()
     else
         let project_path = getcwd()
     endif
-
     return shellescape(substitute(project_path, '[/]', '', 'g'))
 endfunction
 
@@ -131,24 +88,47 @@ function DeleteSession()
 	execute "!rm ". session_path
 endfunction
 
+function RunProgram()
+  if &filetype == 'python'
+    let mp = &makeprg
+    let ef = &errorformat
+    let exeFile = expand("%:t")
+    setlocal makeprg=python\ -u
+    set efm=%C\ %.%#,%A\ \ File\ \"%f\"\\,\ line\ %l%.%#,%Z%[%^\ ]%\\@=%m
+    silent make %
+    copen
+    let &makeprg = mp
+    let &errorformat = ef
+  elseif &filetype == "cpp"
+    execute ":!clang++ -std=c++11 -stdlib=libc++ % -o %:r -g && ./%:r"
+  endif
+endfunction
+
+""""""""""""""""""""""""""
+"Mapping
+""""""""""""""""""""""""""
+hi Normal ctermfg=252 ctermbg=none
+imap jj <ESC>
+" 设置快捷键将选中文本块复制至系统剪贴板
+vnoremap <Leader>y "+y
+" 设置快捷键将系统剪贴板内容粘贴至 vim
+nmap <Leader>p "+p
+nnoremap <c-i> %
+vmap <Leader>d :g/^\s*$/d<CR> "delete all the blank lines in selected range
+nmap <Leader><ESC> :nohl<CR> "cancel highlight
 nmap ssa :call SaveSession()
 nmap sso :call RestoreSession()
 nmap ssd :call DeleteSession()
-"autocmd VimLeave * call SaveSession()
-"autocmd VimEnter * call RestoreSession()
-
-
-
+map <F9> :w<CR> :call RunProgram()<CR>
 
 """""""""""""""""""""""""""""
-"Plugins					"
+"Plugins
 """""""""""""""""""""""""""""
 "set the runtime path to include Vundle and initialize
 filetype plugin indent on    " required
 set rtp+=~/.vim/bundle/Vundle.vim
 call vundle#begin()
 Plugin 'VundleVim/Vundle.vim'
-
 Plugin 'tpope/vim-fugitive'
 Plugin 'L9'
 Plugin 'vim-airline/vim-airline'
@@ -172,19 +152,19 @@ Plugin 'airblade/vim-gitgutter'
 " Plugin 'SirVer/ultisnips'
 " Plugin 'honza/vim-snippets'
 Plugin 'hail2u/vim-css3-syntax'
+"Plugin 'nvie/vim-rst-tables'
+Plugin 'godlygeek/tabular'
+Plugin 'plasticboy/vim-markdown'
+Plugin 'vim-syntastic/syntastic'
 
 " Trigger configuration. Do not use <tab> if you use https://github.com/Valloric/YouCompleteMe.
 let g:UltiSnipsExpandTrigger="<tab>"
 let g:UltiSnipsJumpForwardTrigger="<c-b>"
 let g:UltiSnipsJumpBackwardTrigger="<c-z>"
-
 " If you want :UltiSnipsEdit to split your window.
 let g:UltiSnipsEditSplit="vertical"
-
-
 " All of your Plugins must be added before the following line
 call vundle#end()            " required
-
 
 "NERDTree Setting
 nnoremap <silent> <F5> :NERDTree<CR>
@@ -230,13 +210,10 @@ nmap <leader>6 <Plug>AirlineSelectTab6
 nmap <leader>7 <Plug>AirlineSelectTab7
 nmap <leader>8 <Plug>AirlineSelectTab8
 nmap <leader>9 <Plug>AirlineSelectTab9
-" nnoremap <C-N> :bn<CR>
-" nnoremap <C-P> :bp<CR>
 let g:airline#extensions#whitespace#enabled = 0
 let g:airline#extensions#whitespace#symbol = '!'
 let g:airline#extensions#tagbar#enabled = 1
 let g:airline#extensions#ctrlp#enabled = 1
-
 
 "Tagbar
 let g:tagbar_width=35
@@ -278,14 +255,27 @@ augroup VimCSS3Syntax
   autocmd FileType css setlocal iskeyword+=-
 augroup END
 
-""some personal defined stuff
+"" Plugin syntastic settings.
+set statusline+=%#warningmsg#
+set statusline+=%{SyntasticStatuslineFlag()}
+set statusline+=%*
+let g:syntastic_always_populate_loc_list = 1
+let g:syntastic_auto_loc_list = 1
+let g:syntastic_check_on_open = 0
+let g:syntastic_check_on_wq = 0
+let g:syntastic_mode_map = {'mode': 'passive', 'active_filetypes': [], 'passive_filetypes': []}
+" Use pylint to check python files.
+let g:syntastic_python_checkers = ['pylint']
+map <F2> :SyntasticCheck<CR>
+" Ignore warnings about newlines trailing.
+let g:syntastic_quiet_messages = { 'regex': ['trailing-newlines', 'invalid-name',
+    \'too-many-lines', 'too-many-instance-attributes', 'too-many-public-methods',
+    \'too-many-locals', 'too-many-branches'] }
 
-""macro
-" change the header format
-let @i="I\"<80>lxf:i\"<80>wi\"<80>lxA\",<80>j"
-
-"delete all the blank lines in selected range
-vmap <Leader>d :g/^\s*$/d<CR>
-
-"cancel highlight
-nmap <Leader><ESC> :nohl<CR>
+""""""""""""""""""""""""""
+"Macro
+""""""""""""""""""""""""""
+let @i="I\"<80>lxf:i\"<80>wi\"<80>lxA\",<80>j"	"change the header format
+let @c="i:code:`jjxEa`jj"
+let @r="\"aygvr "								"cut and paste without indent change
+let @p="Ra"
