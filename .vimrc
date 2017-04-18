@@ -39,7 +39,9 @@ set guioptions-=r
 set shiftwidth=4
 set softtabstop=4
 set tabstop=4
-
+" if !has('gui_running')
+"   set background=light
+" endif
 
 """"""""""""""""""""""""""
 "Functions
@@ -101,6 +103,8 @@ function RunProgram()
     let &errorformat = ef
   elseif &filetype == "cpp"
     execute ":!clang++ -std=c++11 -stdlib=libc++ % -o %:r -g && ./%:r"
+  elseif &filetype == "c"
+	execute ":make %:r"
   endif
 endfunction
 
@@ -114,12 +118,14 @@ vnoremap <Leader>y "+y
 " 设置快捷键将系统剪贴板内容粘贴至 vim
 nmap <Leader>p "+p
 nnoremap <c-i> %
-vmap <Leader>d :g/^\s*$/d<CR> "delete all the blank lines in selected range
-nmap <Leader><ESC> :nohl<CR> "cancel highlight
+"delete all the blank lines in selected range
+vmap <Leader>d :g/^\s*$/d<CR> 
+nmap <Leader><ESC> :nohl<CR>
 nmap ssa :call SaveSession()
 nmap sso :call RestoreSession()
 nmap ssd :call DeleteSession()
 map <F9> :w<CR> :call RunProgram()<CR>
+map <F2> :w<CR> :SyntasticCheck<CR> :lopen<CR>
 
 """""""""""""""""""""""""""""
 "Plugins
@@ -137,7 +143,6 @@ Plugin 'scrooloose/nerdcommenter'
 Plugin 'scrooloose/nerdtree'
 Plugin 'jiangmiao/auto-pairs'
 Plugin 'easymotion/vim-easymotion'
-"Plugin 'majutsushi/tagbar'
 " Plugin 'Valloric/YouCompleteMe'
 Plugin 'Yggdroot/indentLine'
 Plugin 'mattn/emmet-vim'
@@ -260,13 +265,16 @@ set statusline+=%#warningmsg#
 set statusline+=%{SyntasticStatuslineFlag()}
 set statusline+=%*
 let g:syntastic_always_populate_loc_list = 1
-let g:syntastic_auto_loc_list = 1
+let g:syntastic_auto_loc_list = 0
 let g:syntastic_check_on_open = 0
 let g:syntastic_check_on_wq = 0
+let g:syntastic_python_pylint_post_args="--max-line-length=120"
+" let g:syntastic_debug=1
+let g:syntastic_cpp_checkers = ['cpplint']
+let g:syntastic_cpp_cpplint_exec = 'cpplint'
 let g:syntastic_mode_map = {'mode': 'passive', 'active_filetypes': [], 'passive_filetypes': []}
 " Use pylint to check python files.
 let g:syntastic_python_checkers = ['pylint']
-map <F2> :SyntasticCheck<CR>
 " Ignore warnings about newlines trailing.
 let g:syntastic_quiet_messages = { 'regex': ['trailing-newlines', 'invalid-name',
     \'too-many-lines', 'too-many-instance-attributes', 'too-many-public-methods',
