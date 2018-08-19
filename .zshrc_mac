@@ -1,5 +1,8 @@
+# If you come from bash you might have to change your $PATH.
+# export PATH=$HOME/bin:/usr/local/bin:$PATH
+
 # Path to your oh-my-zsh installation.
-export ZSH=/Users/alex/.oh-my-zsh
+export ZSH=/Users/sycao/.oh-my-zsh
 
 # Set name of the theme to load.
 # Look in ~/.oh-my-zsh/themes/
@@ -93,6 +96,7 @@ alias duf="du -sh *"
 alias a="aria2c"
 alias c="fortune | cowsay"
 alias cal="cal -y"
+alias ping8="ping 8.8.8.8"
 export PATH="/usr/local/sbin:$PATH"
 export COURIER_DB_USERNAME=cecid
 export COURIER_DB_PASSWORD=hermes
@@ -119,6 +123,35 @@ setopt extendedglob
 
 export LC_ALL=en_US.UTF-8
 export LANG=en_US.UTF-8
-export NVM_DIR="/Users/alex/.nvm"
-[ -s "$NVM_DIR/nvm.sh" ] && . "$NVM_DIR/nvm.sh"  # This loads nvm
-  [[ -s $(brew --prefix)/etc/profile.d/autojump.sh ]] && . $(brew --prefix)/etc/profile.d/autojump.sh
+export NVM_DIR="/Users/sycao/.nvm"
+alias loadnvm=". $NVM_DIR/nvm.sh"
+# [ -s "$NVM_DIR/nvm.sh" ] && . "$NVM_DIR/nvm.sh"  # This loads nvm
+#   [[ -s $(brew --prefix)/etc/profile.d/autojump.sh ]] && . $(brew --prefix)/etc/profile.d/autojump.sh
+
+# [ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
+
+
+export LDFLAGS="-L/usr/local/opt/openssl/lib"
+export CPPFLAGS="-I/usr/local/opt/openssl/include"
+#export PKG_CONFIG_PATH="/usr/local/opt/openssl/lib/pkgconfig"
+#export PATH="/usr/local/opt/openssl/bin:$PATH"
+export JAVA_HOME=/Library/Java/JavaVirtualMachines/jdk1.8.0_171.jdk/Contents/Home
+export PATH=${JAVA_HOME}/bin:$PATH
+
+
+function proxy_off(){
+    unset http_proxy
+    unset https_proxy
+    echo -e "已关闭代理"
+}
+function proxy_on() {
+    export no_proxy="localhost,127.0.0.1,localaddress,.localdomain.com"
+    export http_proxy="http://127.0.0.1:1087"
+    export https_proxy=$http_proxy
+    echo -e "已开启代理"
+}
+
+############golang
+export GOPATH=/Users/sycao/go
+export GOBIN=$GOPATH/bin
+export PATH=$PATH:$GOBIN
